@@ -119,58 +119,31 @@ void loop() {
   sensors_event_t temp;
   icm.getEvent(&accel, &gyro, &temp, &mag);
 
-  // Serial.print("\t\tTemperature ");
-  // Serial.print(temp.temperature);
-  // Serial.println(" deg C");
-
+  Serial.print("temp:");
+  Serial.print(temp.temperature);
+  Serial.print("\t");
   /* Display the results (acceleration is measured in m/s^2) */
-  // Serial.print("\t\tAccel X: ");
-  // Serial.print(accel.acceleration.x);
-  // Serial.print(" \tY: ");
-  // Serial.print(accel.acceleration.y);
-  // Serial.print(" \tZ: ");
-  // Serial.print(accel.acceleration.z);
-  // Serial.println(" m/s^2 ");
+  Serial.print("accel_x:");
+  Serial.print(accel.acceleration.x);
+  Serial.print("\t");
+  Serial.print("accel_y:");
+  Serial.print(accel.acceleration.y);
+  Serial.print("\t");
+  Serial.print("accel_z:");
+  Serial.print(accel.acceleration.z);
+  Serial.print("\t");
 
-  // Serial.print("\t\tMag X: ");
-  // Serial.print(mag.magnetic.x);
-  // Serial.print(" \tY: ");
-  // Serial.print(mag.magnetic.y);
-  // Serial.print(" \tZ: ");
-  // Serial.print(mag.magnetic.z);
-  // Serial.println(" uT");
+  /* Display the results (gyroscope is measured in rad/s) */
+  Serial.print("gyro_x:");
+  Serial.print(gyro.gyro.x);
+  Serial.print("\t");
+  Serial.print("gyro_y:");
+  Serial.print(gyro.gyro.y);
+  Serial.print("\t");
+  Serial.print("gyro_z:");
+  Serial.print(gyro.gyro.z);
+  Serial.print("\n");
 
-  // /* Display the results (acceleration is measured in m/s^2) */
-  // Serial.print("\t\tGyro X: ");
-  // Serial.print(gyro.gyro.x);
-  // Serial.print(" \tY: ");
-  // Serial.print(gyro.gyro.y);
-  // Serial.print(" \tZ: ");
-  // Serial.print(gyro.gyro.z);
-  // Serial.println(" radians/s ");
-  // Serial.println();
+  delayMicroseconds(1*1e3);
 
-  delay(100);
-
-  //  Serial.print(temp.temperature);
-  //
-  //  Serial.print(",");
-  //
-  //  Serial.print(accel.acceleration.x);
-  //  Serial.print(","); Serial.print(accel.acceleration.y);
-  //  Serial.print(","); Serial.print(accel.acceleration.z);
-  //
-  //  Serial.print(",");
-  //  Serial.print(gyro.gyro.x);
-  //  Serial.print(","); Serial.print(gyro.gyro.y);
-  //  Serial.print(","); Serial.print(gyro.gyro.z);
-  //
-  //  Serial.print(",");
-  //  Serial.print(mag.magnetic.x);
-  //  Serial.print(","); Serial.print(mag.magnetic.y);
-  //  Serial.print(","); Serial.print(mag.magnetic.z);
-
-  //  Serial.println();
-  //
-  //  delayMicroseconds(measurement_delay_us);
 }
