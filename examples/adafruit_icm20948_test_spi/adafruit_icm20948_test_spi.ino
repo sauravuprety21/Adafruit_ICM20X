@@ -27,7 +27,7 @@ void setup(void) {
       }
   }
   Serial.println("ICM20948 Found!");
-  // icm.setAccelRange(ICM20948_ACCEL_RANGE_16_G);
+  icm.setAccelRange(ICM20948_ACCEL_RANGE_16_G);
   Serial.print("Accelerometer range set to: ");
   switch (icm.getAccelRange()) {
   case ICM20948_ACCEL_RANGE_2_G:
@@ -45,7 +45,7 @@ void setup(void) {
   }
   Serial.println("OK");
 
-  // icm.setGyroRange(ICM20948_GYRO_RANGE_2000_DPS);
+  icm.setGyroRange(ICM20948_GYRO_RANGE_2000_DPS);
   Serial.print("Gyro range set to: ");
   switch (icm.getGyroRange()) {
   case ICM20948_GYRO_RANGE_250_DPS:
@@ -62,7 +62,7 @@ void setup(void) {
     break;
   }
 
-  //  icm.setAccelRateDivisor(4095);
+   icm.setAccelRateDivisor(ICM20948_SMPLRT_DIV_375_HZ);
   uint16_t accel_divisor = icm.getAccelRateDivisor();
   float accel_rate = 1125 / (1.0 + accel_divisor);
 
@@ -71,9 +71,9 @@ void setup(void) {
   Serial.print("Accelerometer data rate (Hz) is approximately: ");
   Serial.println(accel_rate);
 
-  //  icm.setGyroRateDivisor(255);
+   icm.setGyroRateDivisor(ICM20948_SMPLRT_DIV_375_HZ);
   uint8_t gyro_divisor = icm.getGyroRateDivisor();
-  float gyro_rate = 1100 / (1.0 + gyro_divisor);
+  float gyro_rate = 1125 / (1.0 + gyro_divisor);
 
   Serial.print("Gyro data rate divisor set to: ");
   Serial.println(gyro_divisor);
@@ -104,6 +104,10 @@ void setup(void) {
   }
   Serial.println();
 
+  bool data_ready_int = icm.enableDataReadyInterrupt();
+  Serial.print("Enabled Data Ready Interrupt:\t");
+  Serial.print(data_ready_int);
+  Serial.println();
 }
 
 void loop() {
@@ -115,36 +119,36 @@ void loop() {
   sensors_event_t temp;
   icm.getEvent(&accel, &gyro, &temp, &mag);
 
-  Serial.print("\t\tTemperature ");
-  Serial.print(temp.temperature);
-  Serial.println(" deg C");
+  // Serial.print("\t\tTemperature ");
+  // Serial.print(temp.temperature);
+  // Serial.println(" deg C");
 
   /* Display the results (acceleration is measured in m/s^2) */
-  Serial.print("\t\tAccel X: ");
-  Serial.print(accel.acceleration.x);
-  Serial.print(" \tY: ");
-  Serial.print(accel.acceleration.y);
-  Serial.print(" \tZ: ");
-  Serial.print(accel.acceleration.z);
-  Serial.println(" m/s^2 ");
+  // Serial.print("\t\tAccel X: ");
+  // Serial.print(accel.acceleration.x);
+  // Serial.print(" \tY: ");
+  // Serial.print(accel.acceleration.y);
+  // Serial.print(" \tZ: ");
+  // Serial.print(accel.acceleration.z);
+  // Serial.println(" m/s^2 ");
 
-  Serial.print("\t\tMag X: ");
-  Serial.print(mag.magnetic.x);
-  Serial.print(" \tY: ");
-  Serial.print(mag.magnetic.y);
-  Serial.print(" \tZ: ");
-  Serial.print(mag.magnetic.z);
-  Serial.println(" uT");
+  // Serial.print("\t\tMag X: ");
+  // Serial.print(mag.magnetic.x);
+  // Serial.print(" \tY: ");
+  // Serial.print(mag.magnetic.y);
+  // Serial.print(" \tZ: ");
+  // Serial.print(mag.magnetic.z);
+  // Serial.println(" uT");
 
-  /* Display the results (acceleration is measured in m/s^2) */
-  Serial.print("\t\tGyro X: ");
-  Serial.print(gyro.gyro.x);
-  Serial.print(" \tY: ");
-  Serial.print(gyro.gyro.y);
-  Serial.print(" \tZ: ");
-  Serial.print(gyro.gyro.z);
-  Serial.println(" radians/s ");
-  Serial.println();
+  // /* Display the results (acceleration is measured in m/s^2) */
+  // Serial.print("\t\tGyro X: ");
+  // Serial.print(gyro.gyro.x);
+  // Serial.print(" \tY: ");
+  // Serial.print(gyro.gyro.y);
+  // Serial.print(" \tZ: ");
+  // Serial.print(gyro.gyro.z);
+  // Serial.println(" radians/s ");
+  // Serial.println();
 
   delay(100);
 
