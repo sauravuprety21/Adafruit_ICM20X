@@ -189,6 +189,7 @@ public:
   // TODO: bool-ify
   void setInt1ActiveLow(bool active_low);
   void setInt2ActiveLow(bool active_low);
+  bool enableDataReadyInterrupt(void);
 
   Adafruit_Sensor *getAccelerometerSensor(void);
   Adafruit_Sensor *getGyroSensor(void);

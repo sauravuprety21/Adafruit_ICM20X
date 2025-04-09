@@ -650,6 +650,26 @@ void Adafruit_ICM20X::setInt2ActiveLow(bool active_low) {
   int2_open_drain.write(true);
   int2_polarity.write(active_low);
 }
+/*!
+ * @brief Enable INT1 data ready interrupt
+ *
+ * @param 
+ * 
+ */
+ bool Adafruit_ICM20X::enableDataReadyInterrupt(void){
+  _setBank(0);
+
+  Adafruit_BusIO_Register int_enable_1 = Adafruit_BusIO_Register(
+    i2c_dev, spi_dev, ADDRBIT8_HIGH_TOREAD, ICM20X_B0_REG_INT_ENABLE_1);
+
+  Adafruit_BusIO_RegisterBits data_rdy_enable = Adafruit_BusIO_RegisterBits(
+        &int_enable_1, 1, 0);
+
+  if(!data_rdy_enable.write(true)){
+    return false;
+  }
+  return true;
+ }
 
 /**************************************************************************/
 /*!
