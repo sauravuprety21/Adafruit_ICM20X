@@ -206,6 +206,10 @@ public:
   void resetI2CMaster(void);
   void setI2CBypass(bool bypass_i2c);
 
+  uint8_t buffer[21];
+  void _read(void);
+
+
 protected:
   float temperature, ///< Last reading's temperature (C)
       accX,          ///< Last reading's accelerometer X axis m/s^2
@@ -232,7 +236,6 @@ protected:
       _sensorid_mag,                        ///< ID number for mag
       _sensorid_temp;                       ///< ID number for temperature
 
-  void _read(void);
   virtual void scaleValues(void);
   virtual bool begin_I2C(uint8_t i2c_add, TwoWire *wire, int32_t sensor_id);
   // virtual bool _init(int32_t sensor_id);

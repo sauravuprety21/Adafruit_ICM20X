@@ -304,14 +304,13 @@ void Adafruit_ICM20X::_read(void) {
 
   _setBank(0);
 
-  // reading 9 bytes of mag data to fetch the register that tells the mag we've
+  // reading 7 bytes of mag data to fetch the register that tells the mag we've
   // read all the data
-  const uint8_t numbytes = 14 + 9; // Read Accel, gyro, temp, and 9 bytes of mag
+  const uint8_t numbytes = 14 + 7; // Read Accel, gyro, temp, and 7 bytes of mag
 
   Adafruit_BusIO_Register data_reg = Adafruit_BusIO_Register(
       i2c_dev, spi_dev, ADDRBIT8_HIGH_TOREAD, ICM20X_B0_ACCEL_XOUT_H, numbytes);
 
-  uint8_t buffer[numbytes];
   data_reg.read(buffer, numbytes);
 
   rawAccX = buffer[0] << 8 | buffer[1];
@@ -324,11 +323,11 @@ void Adafruit_ICM20X::_read(void) {
 
   temperature = buffer[12] << 8 | buffer[13];
 
-  rawMagX = ((buffer[16] << 8) |
-             (buffer[15] & 0xFF)); // Mag data is read little endian
-  rawMagY = ((buffer[18] << 8) | (buffer[17] & 0xFF));
-  rawMagZ = ((buffer[20] << 8) | (buffer[19] & 0xFF));
-
+  rawMagX = ((buffer[15] << 8) |
+              (buffer[14] & 0xFF)); // Mag data is read little endian
+  rawMagY = ((buffer[17] << 8) | (buffer[16] & 0xFF));
+  rawMagZ = ((buffer[19] << 8) | (buffer[18] & 0xFF));
+    
   scaleValues();
   _setBank(0);
 }
