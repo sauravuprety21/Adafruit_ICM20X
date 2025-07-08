@@ -324,13 +324,31 @@ void Adafruit_ICM20X::_read(void) {
   temperature = buffer[12] << 8 | buffer[13];
 
   rawMagX = ((buffer[15] << 8) |
-              (buffer[14] & 0xFF)); // Mag data is read little endian
+             (buffer[14] & 0xFF)); // Mag data is read little endian
   rawMagY = ((buffer[17] << 8) | (buffer[16] & 0xFF));
   rawMagZ = ((buffer[19] << 8) | (buffer[18] & 0xFF));
-    
+
   scaleValues();
   _setBank(0);
 }
+
+/*!
+    @brief  Read raw data buffer only, no measurement generation
+ */
+void Adafruit_ICM20X::quickRead(void) {
+  _setBank(0);
+
+  // reading 7 bytes of mag data to fetch the register that tells the mag we've
+  // read all the data
+  const uint8_t numbytes = 14 + 7; // Read Accel, gyro, temp, and 7 bytes of mag
+
+  Adafruit_BusIO_Register data_reg = Adafruit_BusIO_Register(
+      i2c_dev, spi_dev, ADDRBIT8_HIGH_TOREAD, ICM20X_B0_ACCEL_XOUT_H, numbytes);
+
+  data_reg.read(buffer, numbytes);
+  _setBank(0);
+}
+
 /*!
  * @brief Scales the raw variables based on the current measurement range
  *
@@ -652,23 +670,23 @@ void Adafruit_ICM20X::setInt2ActiveLow(bool active_low) {
 /*!
  * @brief Enable INT1 data ready interrupt
  *
- * @param 
- * 
+ * @param
+ *
  */
- bool Adafruit_ICM20X::enableDataReadyInterrupt(void){
+bool Adafruit_ICM20X::enableDataReadyInterrupt(void) {
   _setBank(0);
 
   Adafruit_BusIO_Register int_enable_1 = Adafruit_BusIO_Register(
-    i2c_dev, spi_dev, ADDRBIT8_HIGH_TOREAD, ICM20X_B0_REG_INT_ENABLE_1);
+      i2c_dev, spi_dev, ADDRBIT8_HIGH_TOREAD, ICM20X_B0_REG_INT_ENABLE_1);
 
-  Adafruit_BusIO_RegisterBits data_rdy_enable = Adafruit_BusIO_RegisterBits(
-        &int_enable_1, 1, 0);
+  Adafruit_BusIO_RegisterBits data_rdy_enable =
+      Adafruit_BusIO_RegisterBits(&int_enable_1, 1, 0);
 
-  if(!data_rdy_enable.write(true)){
+  if (!data_rdy_enable.write(true)) {
     return false;
   }
   return true;
- }
+}
 
 /**************************************************************************/
 /*!

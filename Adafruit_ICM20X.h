@@ -209,6 +209,7 @@ public:
   uint8_t buffer[21];
   void _read(void);
 
+  void quickRead(void);
 
 protected:
   float temperature, ///< Last reading's temperature (C)
